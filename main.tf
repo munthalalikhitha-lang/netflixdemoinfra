@@ -1,13 +1,13 @@
 provider "aws" {
-  region = "us-east-1"
+  region = "ap-south-1"
 }
 
 resource "aws_instance" "one" {
   count                  = 3
-  ami                    = "ami-0b6d9d3d33ba97d99"
+  ami                    = "ami-0dcc2a6f4e54e3a3b"
   instance_type          = "c7i-flex.large"
-  key_name               = "junks"
-  vpc_security_group_ids = ["sg-0a1fb8aa0587d50af"]
+  key_name               = "Likitha"
+  vpc_security_group_ids = ["sg-0c9f287a7e61f2b73"]
   tags = {
     Name = var.instance_names[count.index]
   }
@@ -18,7 +18,7 @@ variable "instance_names" {
 }
 
 resource "aws_s3_bucket" "one" {
-  bucket = "my-project-bucket-123456789"
+  bucket = "munthalalikhithasrinu.m"
   versioning {
     enabled = true
   }
