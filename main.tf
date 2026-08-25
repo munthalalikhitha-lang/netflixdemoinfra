@@ -5,9 +5,9 @@ provider "aws" {
 resource "aws_instance" "one" {
   count                  = 3
   ami                    = "ami-01a00762f46d584a1"
-  instance_type          = "c7i-flex.large"
+  instance_type          = "t3.micro"
   key_name               = "Likitha"
-  vpc_security_group_ids = ["sg-0c9f287a7e61f2b73"]
+  vpc_security_group_ids = ["sg-0ff45aced6863fc5d"]
   tags = {
     Name = var.instance_names[count.index]
   }
