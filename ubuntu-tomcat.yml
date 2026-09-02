@@ -14,7 +14,7 @@
       tags: abc
 
     - name: install java
-      command:apt install openjdk-8-jdk
+      command: apt install openjdk-8-jdk
 
     - name: setting the roles in tomcat-user.xml file
       template:
