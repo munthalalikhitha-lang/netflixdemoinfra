@@ -1,105 +1,53 @@
 name: Secure DevSecOps Pipeline - 1
 
-  
+on:
+  push:
+    branches:
+      - master
 
-on: 
+jobs:
+  build_and_package:
+    name: BUILD-JOB
+    runs-on: ubuntu-slim
 
-  push: 
+    permissions:
+      actions: read
+      contents: read
+      security-events: write # Required to upload findings to the Security tab
 
-    branches: 
+    strategy:
+      fail-fast: false
+      matrix:
+        # Specify the languages you want to analyze
+        language: ['javascript-typescript']
 
-      - master 
+    steps:
 
-  
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-jobs: 
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: ${{ matrix.language }}
 
-  build_and_package: 
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
 
-    name: BUILD-JOB 
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: "/language:${{ matrix.language }}"
 
-    runs-on: ubuntu-slim 
+      - name: BUILD
+        run: npm install
 
-  
+      - name: TEST
+        run: echo "code is tested!"
 
-    permissions: 
-
-      actions: read 
-
-      contents: read 
-
-      security-events: write # Required to upload findings to the Security tab 
-
-  
-
-    strategy: 
-
-      fail-fast: false 
-
-      matrix: 
-
-        # Specify the languages you want to analyze 
-
-        language: ['javascript-typescript'] 
-
-  
-
-    steps: 
-
-      - name: Checkout Code 
-
-        uses: actions/checkout@v4 
-
-  
-
-      - name: Initialize CodeQL 
-
-        uses: github/codeql-action/init@v3 
-
-        with: 
-
-          languages: ${{ matrix.language }} 
-
-  
-
-      - name: Autobuild 
-
-        uses: github/codeql-action/autobuild@v3 
-
-  
-
-      - name: Perform CodeQL Analysis 
-
-        uses: github/codeql-action/analyze@v3 
-
-        with: 
-
-          category: "/language:${{ matrix.language }}" 
-
-  
-
-      - name: BUILD 
-
-        run: npm install 
-
-  
-
-      - name: TEST 
-
-        run: echo "code is tested!" 
-
-  
-
-      - name: Artifact upload 
-
-        uses: actions/upload-artifact@v7 
-
-        with: 
-
-          name: artifact-1 
-
-          path: | 
-
-            package* 
-
- 
+      - name: Artifact upload
+        uses: actions/upload-artifact@v7
+        with:
+          name: artifact-1
+          path: |
+            package*
