@@ -19,7 +19,7 @@ variable "instance_names" {
 }
 
 resource "aws_s3_bucket" "one" {
-  bucket = "munthalalikhithasrinum-123"
+  bucket = "munthalalikhithabharath@1234567"
 
   versioning {
     enabled = true
