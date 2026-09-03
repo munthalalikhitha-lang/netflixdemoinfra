@@ -1,44 +1,31 @@
-name: CI-WORKFLOW
+name: Terraform CI
 
 on:
   push:
     branches:
       - main
+  pull_request:
   workflow_dispatch:
 
 jobs:
-  build-test:
+  terraform:
     runs-on: ubuntu-latest
-
-    permissions:
-      actions: read
-      contents: read
-      security-events: write
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
-        with:
-          languages: javascript
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
 
-      - name: Autobuild
-        uses: github/codeql-action/autobuild@v3
+      - name: Terraform Format Check
+        run: terraform fmt -check
+        working-directory: terraform-project
 
-      - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
+      - name: Terraform Init
+        run: terraform init
+        working-directory: terraform-project
 
-      - name: Build
-        run: npm install
-
-      - name: Test
-        run: npm test
-
-      - name: Artifact upload
-        uses: actions/upload-artifact@v4
-        with:
-          name: artifact-1
-          path: |
-            package*
+      - name: Terraform Validate
+        run: terraform validate
+        working-directory: terraform-project
