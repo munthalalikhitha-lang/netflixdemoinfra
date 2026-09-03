@@ -4,7 +4,7 @@ provider "aws" {
 
 resource "aws_instance" "one" {
   count                  = 3
-  ami                    = "ami-01a00762f46d584a1"
+  ami                    = "ami-0b6d9d3d33ba97d99"
   instance_type          = "t3.micro"
   key_name               = "Likitha"
   vpc_security_group_ids = ["sg-0ff45aced6863fc5d"]
