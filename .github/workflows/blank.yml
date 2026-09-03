@@ -19,7 +19,7 @@ jobs:
       fail-fast: false
       matrix:
         # Specify the languages you want to analyze
-        language: ['javascript-typescript']
+        language: ['java']
 
     steps:
 
